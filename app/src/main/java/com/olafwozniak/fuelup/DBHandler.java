@@ -1,13 +1,10 @@
 package com.olafwozniak.fuelup;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.Date;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -20,24 +17,19 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_CAR_ID = "car_id";
     public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_PRICELITERS = "priceliters";
-    public static final String COLUMN_COST = "cost";
-    public static final String COLUMN_LITERS = "liters";
-    public static final String COLUMN_KM = "km";
-    public static final String COLUMN_LPERKM = "lkm";
-    public static final String COLUMN_COSTPERKM = "zlkm";
+    public static final String COLUMN_LICENTPLATE = "licencePlate";
+    public static final String COLUMN_FUELTYPE = "gas";
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        mCarsLab = FuelLab.get(context);
+        mCarsLab = mCarsLab.get(context);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         System.out.println("[INFO] Initialized empty fuel database.");
         //String INITIALIZE_TABLE = String.format("DROP DATABASE FuelDB");
-        String INITIALIZE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s FLOAT, %s FLOAT, %s FLOAT, %s FLOAT, %s FLOAT, %s FLOAT)", TABLE_NAME, COLUMN_ID, COLUMN_CAR_ID, COLUMN_TITLE, COLUMN_DATE, COLUMN_PRICELITERS, COLUMN_COST, COLUMN_LITERS, COLUMN_KM, COLUMN_LPERKM, COLUMN_COSTPERKM);
+        String INITIALIZE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", TABLE_NAME, COLUMN_ID, COLUMN_CAR_ID, COLUMN_TITLE, COLUMN_LICENTPLATE, COLUMN_FUELTYPE);
         db.execSQL(INITIALIZE_TABLE);
     }
 
@@ -47,50 +39,46 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public Cursor getFuels() {
+    public Cursor getCars() {
         String q = String.format("SELECT * FROM %s", TABLE_NAME);
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(q, null);
     }
 
-    public Cursor getFuels(int id) {
+    public Cursor getCar(int id) {
         String uuidString = Integer.toString(id);
         String q = String.format("SELECT * FROM %s WHERE = ?", TABLE_NAME);
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery(q, new String[]{uuidString});
     }
 
-    public void addFuel(Fuel fuel) {
+    public void addCar(Cars car) {
         ContentValues v = new ContentValues();
-        v.put(COLUMN_CAR_ID, FuelLab.mFuels.size());
-        v.put(COLUMN_TITLE, "Other");
-        v.put(COLUMN_DATE, new Date().toString());
-        v.put(COLUMN_PRICELITERS, 0);
-        v.put(COLUMN_COST, 0);
-        v.put(COLUMN_LITERS, 0);
-        v.put(COLUMN_KM, 0);
-        v.put(COLUMN_LPERKM, 0);
-        v.put(COLUMN_COSTPERKM, 0);
+        v.put(COLUMN_CAR_ID, mCarsLab.getCars().size());
+        v.put(COLUMN_TITLE, "New car");
+        v.put(COLUMN_LICENTPLATE, "licent plate");
+        v.put(COLUMN_FUELTYPE, "fuel type");
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_NAME, null, v);
         db.close();
-        mCarsLab.newFuel(fuel);
+        mCarsLab.newCar(car);
     }
 
-    public void deleteFuel(int id) {
+    public void deleteCar(int id) {
         String uuidString = Integer.toString(id);
-        String q = String.format("SELECT * FROM %s WHERE %s = %s", TABLE_NAME, COLUMN_CAR_ID, uuidString);
+        //String q = String.format("SELECT * FROM %s WHERE %s = %s", TABLE_NAME, COLUMN_CAR_ID, uuidString);
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, COLUMN_CAR_ID + " = ?", new String[]{String.valueOf(uuidString)});
         db.close();
-        mCarsLab.deleteFuel(id);
+        mCarsLab.deleteCar(id);
     }
 
-    public void updateFuel(int id, String title) {
+    public void updateCar(int id, String title, String numberPlate, String type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, title);
-
+        cv.put(COLUMN_LICENTPLATE, numberPlate);
+        cv.put(COLUMN_FUELTYPE, type);
         db.update(TABLE_NAME, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});
         db.close();
     }

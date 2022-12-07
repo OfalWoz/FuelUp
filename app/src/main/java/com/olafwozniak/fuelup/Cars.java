@@ -5,6 +5,7 @@ public class Cars {
     private String sTitle;
     private String sLicentNumber;
     private String sType;
+    private String sActive;
 
     public int getId() { return iId; }
 
@@ -21,4 +22,9 @@ public class Cars {
     public void setType(String type) { this.sType = type; }
 
     public String getType() { return sType; }
+
+    public void setsActive(String active) {this.sActive = active;}
+
+    public String getsActive() {return sActive;}
 }
+

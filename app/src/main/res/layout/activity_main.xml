@@ -7,37 +7,54 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true">
-
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:background="#03A9F4"
-        android:iconifiedByDefault="true"
-        android:inputType="text"
-        android:queryHint="Search Here" />
-  </LinearLayout>
-
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_marginTop="50sp" />
+      android:layout_marginBottom="90sp" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/add"
+    android:id="@+id/add"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|bottom"
+    android:layout_margin="15dp"
+    android:background="#03A9F4"
+    android:backgroundTint="#03A9F4"
+    android:onClick="addCar"
+    android:src="@drawable/ic_add"
+    app:backgroundTint="#03A9F4"
+    app:fabSize="normal"
+    tools:ignore="SpeakableTextPresentCheck">
+
+</com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/cars"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="end|bottom"
-      android:layout_margin="10dp"
+      android:layout_gravity="left|bottom"
+      android:layout_margin="15dp"
       android:background="#03A9F4"
       android:backgroundTint="#03A9F4"
-      android:onClick="addCar"
-      android:src="@android:drawable/ic_menu_add"
+      android:onClick="goCar"
+      android:src="@drawable/ic_car"
+      app:backgroundTint="#03A9F4"
+      app:fabSize="normal"
+      tools:ignore="SpeakableTextPresentCheck">
+
+  </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/fuel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="right|bottom"
+      android:layout_margin="15dp"
+      android:background="#03A9F4"
+      android:backgroundTint="#03A9F4"
+      android:onClick="goFuel"
+      android:src="@drawable/ic_fuel"
       app:backgroundTint="#03A9F4"
       app:fabSize="normal"
       tools:ignore="SpeakableTextPresentCheck">

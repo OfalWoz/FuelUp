@@ -28,30 +28,42 @@
 
             <TextView
                 android:id="@+id/id"
-                android:layout_width="match_parent"
+                android:layout_width="300sp"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:text="Id"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/car_Name"
+                android:id="@+id/liters"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="carName"
+                android:text="liters"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/licent_Number"
+                android:id="@+id/total_price"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="licentNumber"
+                android:text="total"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/price_per_l"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="per l"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="24dp"
@@ -60,16 +72,12 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/type_main"
+            android:id="@+id/mileage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
             android:paddingLeft="10dp"
-            android:text="type"
+            android:text="mileage"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

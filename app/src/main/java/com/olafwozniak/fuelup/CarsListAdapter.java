@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarViewHolder> implements Filterable {
+public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarViewHolder> {
 
     public final List<Cars> mCars;
     public LayoutInflater inflater;
@@ -29,12 +30,14 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
 
     public static final String EXTRA_MESSAGE = "pl.edu.uwr.pum.recyclerviewwordlistjava.MESSAGE";
 
+
     class CarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView id;
         public TextView carName;
         private TextView licentNumber;
         private TextView type;
+        public Button editCar;
         final CarsListAdapter adapter;
         public final Context context;
 
@@ -58,6 +61,15 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
            intent.putExtra("id", currentCar.getId());
            context.startActivity(intent);
         }
+
+        public void editCar(View v){
+            int position = getLayoutPosition();
+            Cars currentCar = mCars.get(position);
+            Intent intent = new Intent(context, SecondActivity.class);
+            intent.putExtra("position", position);
+            intent.putExtra("id", currentCar.getId());
+            context.startActivity(intent);
+        }
     }
 
     @NonNull
@@ -70,46 +82,16 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
     @Override
     public void onBindViewHolder(@NonNull CarsListAdapter.CarViewHolder holder, int position) {
         Cars currentCar = mCars.get(position);
-        //holder.id.setText("#"+String.valueOf(currentCar.getId()));
+        holder.id.setText("#"+(currentCar.getId()+1));
         holder.carName.setText(currentCar.getTitle());
         holder.licentNumber.setText(currentCar.getLicentNumber());
         holder.type.setText(currentCar.getType());
     }
 
-   @Override
-   public Filter getFilter() {
-       return filter;
-   }
-
-   Filter filter = new Filter() {
-       @Override
-       protected FilterResults performFiltering(CharSequence constraint) {
-           List<Cars> filter = new ArrayList<>();
-           FilterResults results = new FilterResults();
-
-           if (constraint.toString().isEmpty()) {
-               filter.addAll(mCars);
-           }
-           else {
-               for (Cars c : mCars) {
-                   if (c.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                       filter.add(c);
-                   }
-               }
-           }
-           results.values = filter;
-           return results;
-       }
-
-@Override
-protected void publishResults(final CharSequence constraint, FilterResults results) {
-           mCars.clear();
-           mCars.addAll((Collection<? extends Cars>) results.values);
-           notifyDataSetChanged();
-       }};
-
     @Override
     public int getItemCount() {
         return mCars.size();
     }
+
+
 }

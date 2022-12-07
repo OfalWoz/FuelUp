@@ -6,7 +6,6 @@ import java.util.List;
 
 public class CarsLab
 {
-
     private static CarsLab sCarsLab;
 
     public static List<Cars> lCars;
@@ -47,7 +46,6 @@ public class CarsLab
 
     public void deleteCar(int id)
     {
-        int i = 0;
         for(Cars car: lCars)
         {
             if(car.getId() == id)
@@ -61,9 +59,11 @@ public class CarsLab
     public void newCar(Cars car)
     {
         car.setId(lCars.size());
-        car.setTitle("Click to set");
-        car.setLicentNumber("Licent Number");
-        car.setType("Gas");
+        car.setTitle("New Car #" + (int)(car.getId()+1));
+        car.setLicentNumber("");
+        car.setType("");
+        car.setsActive("1");
         lCars.add(car);
     }
 }
+

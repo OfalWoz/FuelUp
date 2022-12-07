@@ -10,10 +10,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -86,12 +88,12 @@ public class SecondActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
             Cars current = cars.get(position);
-            //holder.viewId.setText(current.getId());
             holder.Title.setText(current.getTitle());
             holder.licentNumber.setText(current.getLicentNumber());
             holder.Type.setText(current.getType());
             Id = cars.get(position).getId();
             carPos = viewPager2.getCurrentItem();
+
             holder.Title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

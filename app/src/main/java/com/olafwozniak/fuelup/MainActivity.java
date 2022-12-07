@@ -1,27 +1,29 @@
 package com.olafwozniak.fuelup;
 
+import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
 
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "pl.edu.uwr.pum.recyclerviewwordlistjava.MESSAGE";
     private RecyclerView recyclerView;
     private com.olafwozniak.fuelup.CarsListAdapter CarsListAdapter;
+    private com.olafwozniak.fuelup.FuelListAdapter FuelListAdapter;
+    public List<Fuels> fuelsList = FuelsLab.get(this).getFuels();
     public List<Cars> carsList = CarsLab.get(this).getCars();
 
     private CarsLab mCarsLab;
+    private FuelsLab mFuelsLab;
     private DBHandler DbHandler;
-    private SearchView svCarSearcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,33 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
         DbHandler = new DBHandler(this);
         mCarsLab.get(this);
+        mFuelsLab.get(this);
         initialize();
 
         recyclerView = findViewById(R.id.recyclerView);
         CarsListAdapter = new CarsListAdapter(this, carsList);
-        recyclerView.setAdapter(CarsListAdapter);
+        FuelListAdapter = new FuelListAdapter(this, fuelsList);
+        recyclerView.setAdapter(FuelListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        svCarSearcher = findViewById(R.id.search);
-
-        svCarSearcher.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                CarsListAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-        svCarSearcher.setOnCloseListener(() -> {
-            initialize();
-            CarsListAdapter.notifyDataSetChanged();
-            return false;
-        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -70,10 +53,24 @@ public class MainActivity extends AppCompatActivity {
         Cars car = new Cars();
         DbHandler.addCar(car);
         CarsListAdapter.notifyDataSetChanged();
+        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        intent.putExtra("position", car.getId());
+        intent.putExtra("id", car.getId());
+        MainActivity.this.startActivity(intent);
+    }
+
+    public void goFuel(View view) {
+
+    }
+
+    public void goCar(View view) {
+
     }
 
     private void initialize() {
         Cursor c = DbHandler.getCars();
+        Cursor f = DBHandler.getFuels();
+        fuelsList.clear();
         carsList.clear();
 
         if (c.getCount() != 0) {

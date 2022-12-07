@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 android:textAlignment="center"
@@ -33,9 +33,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
+                android:layout_margin="16dp"
                 android:gravity="center"
                 android:inputType="text"
-                android:text="Tittle"
+                android:hint="Name of your car"
                 android:importantForAutofill="no"/>
 
         </LinearLayout>
@@ -44,10 +45,11 @@
             android:id="@+id/delete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:layout_weight="4"
             android:background="#D70C24"
             android:onClick="delCrime"
+            android:gravity="center"
             app:icon="@android:drawable/ic_menu_delete" />
 
     </LinearLayout>
@@ -61,8 +63,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="10dp"
+            android:layout_margin="16dp"
+            android:textSize="15dp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:text="Licent plate number:" />
@@ -71,18 +73,18 @@
             android:id="@+id/licentNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="16dp"
             android:textAlignment="center"
             android:layout_weight="1"
             android:inputType="text"
-            android:text="DW 12345"
+            android:hint="DW 12345"
             android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="10dp"
+            android:layout_margin="16dp"
+            android:textSize="15dp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:text="Type of fuel:" />
@@ -91,14 +93,13 @@
             android:id="@+id/type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="16dp"
             android:textAlignment="center"
             android:layout_weight="1"
             android:inputType="text"
-            android:text="Select type of fuel"
+            android:hint="Type of fuel"
             android:importantForAutofill="no"/>
-
-
+        
     </LinearLayout>
 
 </LinearLayout>

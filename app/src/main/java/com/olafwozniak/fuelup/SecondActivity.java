@@ -106,7 +106,7 @@ public class SecondActivity extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
                     current.setTitle(holder.Title.getText().toString());
-                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType());
+                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType(), current.getsActive());
                 }
             });
             holder.licentNumber.addTextChangedListener(new TextWatcher() {
@@ -121,7 +121,7 @@ public class SecondActivity extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
                     current.setLicentNumber(holder.licentNumber.getText().toString());
-                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType());
+                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType(), current.getsActive());
                 }
             });
             holder.Type.addTextChangedListener(new TextWatcher() {
@@ -136,7 +136,7 @@ public class SecondActivity extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
                     current.setType(holder.Type.getText().toString());
-                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType());
+                    mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType(), current.getsActive());
                 }
             });
         }

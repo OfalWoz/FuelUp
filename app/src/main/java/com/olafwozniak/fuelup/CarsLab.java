@@ -30,9 +30,12 @@ public class CarsLab
         lCars = new ArrayList<>();
     }
 
-    public Cars getCars(int id) {
-        for (Cars car : lCars) {
-            if (car.getId() == id) {
+    public Cars getCars(int id)
+    {
+        for (Cars car : lCars)
+        {
+            if (car.getId() == id)
+            {
                 return car;
             }
         }
@@ -62,7 +65,7 @@ public class CarsLab
         car.setTitle("New Car #" + (int)(car.getId()+1));
         car.setLicentNumber("");
         car.setType("");
-        car.setsActive("1");
+        car.setsActive("yes");
         lCars.add(car);
     }
 }

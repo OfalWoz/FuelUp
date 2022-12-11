@@ -11,16 +11,16 @@ public class DBHandler extends SQLiteOpenHelper {
     CarsLab mCarsLab;
     FuelsLab mFuelsLab;
 
-    private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "Cars.db";
+    private static final int DB_VERSION = 2;
+    private static final String DB_NAME = "car.db";
 
-    public static final String TABLE_NAME = "car";
+    public static final String TABLE_NAME_CAR = "cars";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_CAR_ID = "car_id";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_LICENTPLATE = "licencePlate";
-    public static final String COLUMN_FUELTYPE = "gas";
-    public static final String COLUMN_ACTIVE = "1";
+    public static final String COLUMN_FUELTYPE = "fuelTypeCar";
+    public static final String COLUMN_ACTIVE = "active";
 
     public static final String TABLE_NAME_FUEL = "fuel";
     public static final String COLUMN_ID_FUEL = "id";
@@ -35,22 +35,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        mCarsLab = mCarsLab.get(context);
         mFuelsLab = mFuelsLab.get(context);
+        mCarsLab = mCarsLab.get(context);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         System.out.println("[INFO] Initialized empty fuel database.");
-        String INITIALIZE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", TABLE_NAME, COLUMN_ID, COLUMN_CAR_ID, COLUMN_TITLE, COLUMN_LICENTPLATE, COLUMN_FUELTYPE, COLUMN_ACTIVE);
-        db.execSQL(INITIALIZE_TABLE);
+        String INITIALIZE_TABLE_CAR = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", TABLE_NAME_CAR, COLUMN_ID, COLUMN_CAR_ID, COLUMN_TITLE, COLUMN_LICENTPLATE, COLUMN_FUELTYPE, COLUMN_ACTIVE);
         String INITIALIZE_TABLE_FUEL = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", TABLE_NAME_FUEL, COLUMN_ID_FUEL, COLUMN_FUEL_ID, COLUMN_TITLE_FUEL, COLUMN_LITERS, COLUMN_PRICE_PER_L, COLUMN_TOTAL_PRICE, COLUMN_CAR, COLUMN_FUEL_TYPE, COLUMN_MILEAGE);
         db.execSQL(INITIALIZE_TABLE_FUEL);
+        db.execSQL(INITIALIZE_TABLE_CAR);
+        //db.execSQL("CREATE TABLE "+TABLE_NAME_CAR+" ( "+COLUMN_ID+" INTEGER PRIMARY KEY,"+COLUMN_CAR_ID+" TEXT, "+COLUMN_TITLE+" TEXT, "+COLUMN_LICENTPLATE+" TEXT, "+COLUMN_FUELTYPE+" TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(String.format("DROP TABLE IF EXISTS %s", TABLE_NAME));
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_CAR);
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", TABLE_NAME_FUEL));
         onCreate(db);
     }
 
@@ -60,22 +62,14 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public Cursor getCars() {
-        String q = String.format("SELECT * FROM %s", TABLE_NAME);
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(q, null);
+        return db.rawQuery("SELECT * FROM "+TABLE_NAME_CAR, null);
     }
 
     public Cursor getFuels() {
         String f = String.format("SELECT * FROM %s", TABLE_NAME_FUEL);
         SQLiteDatabase dbf = this.getReadableDatabase();
         return dbf.rawQuery(f, null);
-    }
-
-    public Cursor getCar(int id) {
-        String uuidString = Integer.toString(id);
-        String q = String.format("SELECT * FROM %s WHERE = ?", TABLE_NAME);
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery(q, new String[]{uuidString});
     }
 
     public void addCar(Cars car) {
@@ -85,9 +79,9 @@ public class DBHandler extends SQLiteOpenHelper {
         v.put(COLUMN_TITLE, car.getTitle());
         v.put(COLUMN_LICENTPLATE, "");
         v.put(COLUMN_FUELTYPE, "");
-        v.put(COLUMN_ACTIVE,"1");
+        v.put(COLUMN_ACTIVE,"yes");
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_NAME, null, v);
+        db.insert(TABLE_NAME_CAR, null, v);
         db.close();
     }
 
@@ -110,7 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteCar(int id) {
         String uuidString = Integer.toString(id);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, COLUMN_CAR_ID + " = ?", new String[]{String.valueOf(uuidString)});
+        db.delete(TABLE_NAME_CAR, COLUMN_CAR_ID + " = ?", new String[]{String.valueOf(uuidString)});
         db.close();
         mCarsLab.deleteCar(id);
     }
@@ -123,7 +117,7 @@ public class DBHandler extends SQLiteOpenHelper {
         mFuelsLab.deleteFuel(id);
     }
 
-    public void updateCar(int id, String title, String numberPlate, String type) {
+    public void updateCar(int id, String title, String numberPlate, String type, String active) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         if(title == "") {
@@ -133,7 +127,8 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         cv.put(COLUMN_LICENTPLATE, numberPlate);
         cv.put(COLUMN_FUELTYPE, type);
-        db.update(TABLE_NAME, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});
+        cv.put(COLUMN_ACTIVE, active);
+        db.update(TABLE_NAME_CAR, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});
         db.close();
     }
 
@@ -151,7 +146,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(COLUMN_TOTAL_PRICE, totalPrice);
         cv.put(COLUMN_CAR, carId);
         cv.put(COLUMN_MILEAGE, mileage);
-        db.update(TABLE_NAME, cv, COLUMN_FUEL_ID + " = ?", new String[]{Integer.toString(id)});
+        db.update(TABLE_NAME_CAR, cv, COLUMN_FUEL_ID + " = ?", new String[]{Integer.toString(id)});
         db.close();
     }
 
@@ -159,7 +154,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_ACTIVE, active);
-        db.update(TABLE_NAME, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});
+        db.update(TABLE_NAME_CAR, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});
         db.close();
     }
 }

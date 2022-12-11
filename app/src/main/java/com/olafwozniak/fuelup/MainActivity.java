@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "pl.edu.uwr.pum.recyclerviewwordlistjava.MESSAGE";
     private RecyclerView recyclerView;
     private com.olafwozniak.fuelup.CarsListAdapter CarsListAdapter;
     private com.olafwozniak.fuelup.FuelListAdapter FuelListAdapter;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         CarsListAdapter = new CarsListAdapter(this, carsList);
         FuelListAdapter = new FuelListAdapter(this, fuelsList);
-        recyclerView.setAdapter(FuelListAdapter);
+        recyclerView.setAdapter(FuelListAdapter);                                   //default is showing fuel list in main
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -60,18 +61,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goFuel(View view) {
-
+        recyclerView.setAdapter(FuelListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void goCar(View view) {
-
+        recyclerView.setAdapter(CarsListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void initialize() {
         Cursor c = DbHandler.getCars();
-        Cursor f = DBHandler.getFuels();
-        fuelsList.clear();
+        Cursor f = DbHandler.getFuels();
         carsList.clear();
+        fuelsList.clear();
 
         if (c.getCount() != 0) {
             while (c.moveToNext()) {

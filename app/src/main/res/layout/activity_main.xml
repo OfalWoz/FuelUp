@@ -23,7 +23,6 @@
     android:backgroundTint="#03A9F4"
     android:onClick="addCar"
     android:src="@drawable/ic_add"
-    app:backgroundTint="#03A9F4"
     app:fabSize="normal"
     tools:ignore="SpeakableTextPresentCheck">
 

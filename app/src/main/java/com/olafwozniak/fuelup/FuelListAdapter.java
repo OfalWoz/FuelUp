@@ -93,7 +93,7 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
         holder.totalPrice.setText(currentFuel.getsTotalPrice()+"pln");
         holder.pricePerL.setText(currentFuel.getsPriceFuel()+"pln/l");
         holder.mileage.setText(currentFuel.getiMileage());
-        holder.CarId = currentFuel.getCarID();
+        //sholder.CarId = setText(currentFuel.getCarID());
     }
 
     @Override

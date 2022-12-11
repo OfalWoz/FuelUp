@@ -8,7 +8,7 @@ public class Fuels {
     private String sPriceFuel;
     private String sTotalPrice;
     private String sMileage;
-    private int carID;
+    private String carID;
 
     public int getIdFuel() {
         return iId;
@@ -52,9 +52,9 @@ public class Fuels {
 
     public String getsTotalPrice() { return sTotalPrice; }
 
-    public void setCarID(int i) { this.carID = i; }
+    public void setCarID(String i) { this.carID = i; }
 
-    public int getCarID() {return carID; }
+    public String  getCarID() {return carID; }
 
     public void setsMileage(String i) { this.sMileage = i; }
 

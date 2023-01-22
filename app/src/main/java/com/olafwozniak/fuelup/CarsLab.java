@@ -62,10 +62,17 @@ public class CarsLab
     public void newCar(Cars car)
     {
         car.setId(lCars.size());
-        car.setTitle("New Car #" + (int)(car.getId()+1));
-        car.setLicentNumber("");
-        car.setType("");
-        car.setsActive("yes");
+        if(car.getTitle() == "")
+        {
+            car.setTitle("New Car #" + (int)(car.getId()));
+        }
+        else
+        {
+            car.setTitle(car.getTitle());
+        }
+        car.setLicentNumber(car.getLicentNumber());
+        car.setType(car.getType());
+        car.setsActive(car.getsActive());
         lCars.add(car);
     }
 }

@@ -3,6 +3,7 @@ package com.olafwozniak.fuelup;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FuelsLab
@@ -59,12 +60,18 @@ public class FuelsLab
 
     public void newFuel(Fuels fuel)
     {
-        fuel.setIdFuel(lFuels.size());
-        fuel.setTitleFuel("New Fuel #" + (int) (fuel.getIdFuel() + 1));
-        fuel.setsPriceFuel("");
-        fuel.setLiters("");
-        fuel.setsTotalPrice("1");
-        fuel.setTypeFuel("");
+        fuel.setIdFuel(lFuels.size()+1);
+        fuel.setTitleFuel("New Fuel #" + (int) (fuel.getIdFuel()));
+        fuel.setsMileage(0F);
+        fuel.setsPriceFuel(0F);
+        fuel.setLiters(0F);
+        fuel.setsTotalPrice(0F);
+        fuel.setCarID("");
+        fuel.setTypeFuel("Gas");
+        fuel.setDate(new Date());
+        fuel.setbFull(Boolean.TRUE);
+        fuel.setfAvergeLiters(0F);
+        fuel.setfAvergeCost(0F);
         lFuels.add(fuel);
     }
 }

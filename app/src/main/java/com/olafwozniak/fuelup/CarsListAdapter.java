@@ -37,6 +37,7 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
         public TextView carName;
         private TextView licentNumber;
         private TextView type;
+        private TextView active;
         public Button editCar;
         final CarsListAdapter adapter;
         public final Context context;
@@ -48,6 +49,7 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
             carName = itemView.findViewById(R.id.car_Name);
             licentNumber = itemView.findViewById(R.id.licent_Number);
             type = itemView.findViewById(R.id.type_main);
+            active = itemView.findViewById(R.id.active);
             itemView.setOnClickListener(this);
             this.adapter = adapter;
         }
@@ -82,10 +84,11 @@ public class CarsListAdapter extends RecyclerView.Adapter<CarsListAdapter.CarVie
     @Override
     public void onBindViewHolder(@NonNull CarsListAdapter.CarViewHolder holder, int position) {
         Cars currentCar = mCars.get(position);
-        holder.id.setText("#"+(currentCar.getId()+1));
+        holder.id.setText("#"+(currentCar.getId())+1);
         holder.carName.setText(currentCar.getTitle());
         holder.licentNumber.setText(currentCar.getLicentNumber());
         holder.type.setText(currentCar.getType());
+        holder.active.setText(currentCar.getsActive());
     }
 
     @Override

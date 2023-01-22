@@ -109,6 +109,7 @@ public class SecondActivity extends AppCompatActivity {
                     mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType(), current.getsActive());
                 }
             });
+
             holder.licentNumber.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,6 +125,7 @@ public class SecondActivity extends AppCompatActivity {
                     mDbHandler.updateCar(current.getId(), current.getTitle(), current.getLicentNumber(), current.getType(), current.getsActive());
                 }
             });
+
             holder.Type.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

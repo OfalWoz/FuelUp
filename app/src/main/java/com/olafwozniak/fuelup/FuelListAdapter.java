@@ -6,15 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelViewHolder> {
@@ -40,6 +39,9 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
         private TextView pricePerL;
         private TextView totalPrice;
         private TextView mileage;
+        private TextView date;
+        private TextView averageLiters;
+        private TextView averageCost;
         private int CarId;
         public Button editFuel;
         final FuelListAdapter adapter;
@@ -54,24 +56,18 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
             pricePerL = itemView.findViewById(R.id.price_per_l);
             mileage = itemView.findViewById(R.id.mileage);
             type = itemView.findViewById(R.id.type_main);
+            date = itemView.findViewById(R.id.date);
+            averageLiters = itemView.findViewById(R.id.averageLiters);
+            averageCost = itemView.findViewById(R.id.averageCost);
             itemView.setOnClickListener(this);
             this.adapter = adapter;
         }
 
         @Override
         public void onClick(View v) {
-           //int position = getLayoutPosition();
-           //Fuels currentFuel = lFuel.get(position);
-           //Intent intent = new Intent(context, SecondActivity.class);
-           //intent.putExtra("position", position);
-           //intent.putExtra("id", currentFuel.getId());
-           //context.startActivity(intent);
-        }
-
-        public void editFuel(View v){
             int position = getLayoutPosition();
             Fuels currentFuel = lFuel.get(position);
-            Intent intent = new Intent(context, SecondActivity.class);
+            Intent intent = new Intent(context, FuelAddActivity.class);
             intent.putExtra("position", position);
             intent.putExtra("id", currentFuel.getIdFuel());
             context.startActivity(intent);
@@ -87,13 +83,25 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
 
     @Override
     public void onBindViewHolder(@NonNull FuelViewHolder holder, int position) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Fuels currentFuel = lFuel.get(position);
-        holder.id.setText("#"+(currentFuel.getIdFuel()+1));
-        holder.liters.setText(currentFuel.getLiters());
-        holder.totalPrice.setText(currentFuel.getsTotalPrice()+"pln");
-        holder.pricePerL.setText(currentFuel.getsPriceFuel()+"pln/l");
-        holder.mileage.setText(currentFuel.getiMileage());
-        //sholder.CarId = setText(currentFuel.getCarID());
+        holder.id.setText("#"+(currentFuel.getIdFuel()));
+        holder.liters.setText(String.format("%.2f",currentFuel.getLiters())+" l");
+        holder.totalPrice.setText(String.format("%.2f",currentFuel.getsTotalPrice())+" pln");
+        holder.pricePerL.setText(String.format("%.2f",currentFuel.getsPriceFuel())+" pln/l");
+        holder.mileage.setText(String.format("%.0f",currentFuel.getiMileage())+" km");
+        holder.date.setText(dateFormat.format(currentFuel.getDate()));
+        if(currentFuel.getIdFuel() == 1 ) {
+            holder.averageLiters.setText("First refueling.");
+            holder.averageCost.setText("");
+        }
+        else if(!(currentFuel.getbFull())) {
+            holder.averageLiters.setText("Partial refueling.");
+            holder.averageCost.setText("");
+        } else {
+            holder.averageLiters.setText(String.format("%.2f", currentFuel.getfAvergeLiters()) + " l/100km");
+            holder.averageCost.setText(String.format("%.2f", currentFuel.getfAvergeCost()) + " pln/1km");
+        }
     }
 
     @Override

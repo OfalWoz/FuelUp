@@ -1,14 +1,22 @@
 package com.olafwozniak.fuelup;
 
+import android.text.BoringLayout;
+
+import java.util.Date;
+
 public class Fuels {
     private int iId;
     private String sTitle;
-    private String sLiters;
+    private Float sLiters;
     private String sType;
-    private String sPriceFuel;
-    private String sTotalPrice;
-    private String sMileage;
+    private Float sPriceFuel;
+    private Float sTotalPrice;
+    private Float sMileage;
     private String carID;
+    private Date mDate;
+    private Boolean bFull;
+    private Float fAvergeLiters;
+    private Float fAvergeCost;
 
     public int getIdFuel() {
         return iId;
@@ -18,19 +26,15 @@ public class Fuels {
         this.iId = mId;
     }
 
-    public void setTitleFuel(String s) {
-        this.sTitle = s;
-    }
+    public void setTitleFuel(String s) { this.sTitle = s; }
 
-    public String getTitleFuel() {
-        return sTitle;
-    }
+    public String getTitleFuel(){ return sTitle; }
 
-    public void setLiters(String s) {
+    public void setLiters(Float s) {
         this.sLiters = s;
     }
 
-    public String getLiters() {
+    public Float getLiters() {
         return sLiters;
     }
 
@@ -40,23 +44,39 @@ public class Fuels {
         return sType;
     }
 
-    public void setsPriceFuel(String s) {
+    public void setsPriceFuel(Float s) {
         this.sPriceFuel = s;
     }
 
-    public String getsPriceFuel() {
+    public Float getsPriceFuel() {
         return sPriceFuel;
     }
 
-    public void setsTotalPrice(String s) { this.sTotalPrice = s; }
+    public void setsTotalPrice(Float s) { this.sTotalPrice = s; }
 
-    public String getsTotalPrice() { return sTotalPrice; }
+    public Float getsTotalPrice() { return sTotalPrice; }
 
     public void setCarID(String i) { this.carID = i; }
 
     public String  getCarID() {return carID; }
 
-    public void setsMileage(String i) { this.sMileage = i; }
+    public void setsMileage(Float i) { this.sMileage = i; }
 
-    public String getiMileage() {return sMileage; }
+    public Float getiMileage() {return sMileage; }
+
+    public void setDate(Date date) { this.mDate = date; }
+
+    public Date getDate() { return mDate; }
+
+    public void setbFull(Boolean full) { this.bFull = full; }
+
+    public Boolean getbFull() { return bFull; }
+
+    public void setfAvergeLiters(Float liters) { this.fAvergeLiters = liters; }
+
+    public Float getfAvergeLiters() { return fAvergeLiters; }
+
+    public void setfAvergeCost(Float cost) { this.fAvergeCost = cost; }
+
+    public Float getfAvergeCost() { return fAvergeCost; }
 }

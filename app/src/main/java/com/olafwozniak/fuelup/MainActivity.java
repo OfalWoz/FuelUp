@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.SearchView;
+import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private CarsLab mCarsLab;
     private FuelsLab mFuelsLab;
     private DBHandler DbHandler;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +38,23 @@ public class MainActivity extends AppCompatActivity {
         DbHandler = new DBHandler(this);
         mCarsLab.get(this);
         mFuelsLab.get(this);
-        initialize();
+
 
         recyclerView = findViewById(R.id.recyclerView);
         CarsListAdapter = new CarsListAdapter(this, carsList);
         FuelListAdapter = new FuelListAdapter(this, fuelsList);
-        recyclerView.setAdapter(FuelListAdapter);                                   //default is showing fuel list in main
+        textView = findViewById(R.id.textView);
+        if(carsList.isEmpty())
+        {
+            recyclerView.setAdapter(CarsListAdapter);
+        }
+        else
+        {
+            recyclerView.setAdapter(FuelListAdapter);                                   //default is showing fuel list in main
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        initialize();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -51,18 +65,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addCar(View view) {
-        Cars car = new Cars();
-        DbHandler.addCar(car);
-        CarsListAdapter.notifyDataSetChanged();
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        intent.putExtra("position", car.getId());
-        intent.putExtra("id", car.getId());
-        MainActivity.this.startActivity(intent);
+        if(recyclerView.getAdapter() == CarsListAdapter)
+        {
+            Cars car = new Cars();
+            DbHandler.addCar(car);
+            CarsListAdapter.notifyDataSetChanged();
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            intent.putExtra("position", car.getId());
+            intent.putExtra("id", car.getId());
+            MainActivity.this.startActivity(intent);
+        }
+        else if(recyclerView.getAdapter() == FuelListAdapter)
+        {
+            if(carsList.isEmpty())
+            {
+                Snackbar infocar = Snackbar.make(textView, "Add at least one car", Snackbar.LENGTH_SHORT);
+                infocar.show();
+            }
+            else
+            {
+                Fuels fuels = new Fuels();
+                DbHandler.addFuel(fuels);
+                FuelListAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(MainActivity.this, FuelAddActivity.class);
+                intent.putExtra("position", fuels.getIdFuel());
+                intent.putExtra("id", fuels.getIdFuel());
+                MainActivity.this.startActivity(intent);
+            }
+        }
     }
 
     public void goFuel(View view) {
-        recyclerView.setAdapter(FuelListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if(carsList.isEmpty())
+        {
+            Snackbar infocar = Snackbar.make(textView, "Add at least one car", Snackbar.LENGTH_SHORT);
+            infocar.show();
+        }
+        else
+        {
+            recyclerView.setAdapter(FuelListAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
     }
 
     public void goCar(View view) {
@@ -84,6 +127,24 @@ public class MainActivity extends AppCompatActivity {
                 car.setLicentNumber(c.getString(3));
                 car.setType(c.getString(4));
                 carsList.add(car);
+            }
+        }
+        if (f.getCount() != 0) {
+            while (f.moveToNext()) {
+                Fuels fuel = new Fuels();
+                fuel.setIdFuel(Integer.parseInt(f.getString(1)));
+                fuel.setTitleFuel(f.getString(2));
+                fuel.setLiters(f.getFloat(3));
+                fuel.setsPriceFuel(f.getFloat(4));
+                fuel.setsTotalPrice(f.getFloat(5));
+                fuel.setCarID(f.getString(6));
+                fuel.setTypeFuel(f.getString(7));
+                fuel.setsMileage(f.getFloat(8));
+                fuel.setDate(new Date(f.getString(9)));
+                fuel.setbFull(f.getInt(10) > 0);
+                fuel.setfAvergeLiters(f.getFloat(11));
+                fuel.setfAvergeCost(f.getFloat(12));
+                fuelsList.add(fuel);
             }
         }
     }

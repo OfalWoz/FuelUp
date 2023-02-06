@@ -180,7 +180,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void activeCar(int id, String active) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_ACTIVE, "no");
+        //cv.put(COLUMN_ACTIVE, "no");
         db.update(TABLE_NAME_CAR, cv,COLUMN_ACTIVE + " = ?",new String[]{active});
         cv.put(COLUMN_ACTIVE, active);
         db.update(TABLE_NAME_CAR, cv, COLUMN_CAR_ID + " = ?", new String[]{Integer.toString(id)});

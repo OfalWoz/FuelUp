@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         mCarsLab.get(this);
         mFuelsLab.get(this);
 
-
         recyclerView = findViewById(R.id.recyclerView);
         CarsListAdapter = new CarsListAdapter(this, carsList);
         FuelListAdapter = new FuelListAdapter(this, fuelsList);
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             recyclerView.setAdapter(FuelListAdapter);                                   //default is showing fuel list in main
+            recyclerView.smoothScrollToPosition(fuelsList.size());
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -105,12 +105,14 @@ public class MainActivity extends AppCompatActivity {
         {
             recyclerView.setAdapter(FuelListAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.smoothScrollToPosition(fuelsList.size());
         }
     }
 
     public void goCar(View view) {
         recyclerView.setAdapter(CarsListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.smoothScrollToPosition(carsList.size());
     }
 
     private void initialize() {
